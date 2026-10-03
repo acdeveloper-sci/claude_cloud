@@ -1,528 +1,768 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Adolfo J. Cardozo S. — Computación científica, IA y código abierto</title>
-<meta name="description" content="Freelancer y desarrollador open source: computación científica, modernización de Fortran, IA aplicada y backends en Python. Inglés y español.">
-<meta property="og:title" content="Adolfo J. Cardozo S. — Computación científica, IA y código abierto">
-<meta property="og:description" content="Herramientas que vuelven computables los problemas difíciles. Freelance y open source.">
-<meta property="og:type" content="website">
-<meta name="theme-color" content="#0f1720">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230e7c6b'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='15' font-weight='700' fill='white' text-anchor='middle'%3Eac%3C/text%3E%3C/svg%3E">
-<style>
-  :root {
-    --bg: #f7f6f2;
-    --surface: #ffffff;
-    --surface-2: #efede6;
-    --text: #1b1f23;
-    --muted: #5b636b;
-    --line: #e1ded5;
-    --accent: #0e7c6b;
-    --accent-ink: #ffffff;
-    --accent-soft: #dcefe9;
-    --warn-bg: #fff4d6;
-    --warn-text: #7a5600;
-    --radius: 14px;
-    --shadow: 0 1px 2px rgba(0,0,0,.04), 0 6px 20px rgba(0,0,0,.05);
-    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-    --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    color-scheme: light;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #0f1720; --surface: #16202b; --surface-2: #1c2834; --text: #e7ecef;
-      --muted: #9aa7b2; --line: #263442; --accent: #3cc3a9; --accent-ink: #0b1a17;
-      --accent-soft: #15362f; --warn-bg: #3a2f10; --warn-text: #f3d27a;
-      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portafolio open source — Adolfo J. Cardozo S. | AC Scientific Computing</title>
+  <meta name="description" content="Portafolio de proyectos públicos en GitHub de Adolfo J. Cardozo S.: análisis de Fortran heredado, IA y LLMs, herramientas Python y más.">
+
+  <link rel="icon" type="image/svg+xml" href="assets/img/logo-acscicomp.svg">
+  <link rel="icon" type="image/png" href="assets/img/logo-acscicomp.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Portafolio open source — Adolfo J. Cardozo S.">
+  <meta property="og:description" content="Proyectos públicos en GitHub: Fortran heredado, IA y LLMs, herramientas Python.">
+  <meta property="og:image" content="https://acscicomp.com/assets/img/logo-acscicomp.png">
+  <meta property="og:locale" content="es_CO">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <script>
+    /* Aplica tema e idioma antes de pintar, para evitar parpadeo.
+       Mismas claves que acscicomp.com: al servirse bajo el mismo dominio, se comparten. */
+    (function () {
+      try {
+        var t = localStorage.getItem('acscicomp-theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+        var l = localStorage.getItem('acscicomp-lang');
+        if (l) document.documentElement.setAttribute('lang', l);
+      } catch (e) {}
+    })();
+  </script>
+
+  <style>
+    /* ── Theme tokens (mismos que acscicomp.com) ─────────────── */
+    :root {
+      --bg:       #0f1117;
+      --surface:  #1a1f2e;
+      --surface2: #222840;
+      --accent:   #4f9cf9;
+      --accent2:  #7ee8a2;
+      --text:     #e2e8f0;
+      --muted:    #8892a4;
+      --border:   rgba(255,255,255,0.08);
+      --tag-bg:   rgba(79,156,249,0.12);
+      --tag-c:    #4f9cf9;
+      --tag2-bg:  rgba(126,232,162,0.12);
+      --tag2-c:   #7ee8a2;
+      --warn-bg:  rgba(250,204,21,0.12);
+      --warn-c:   #facc15;
+      --card-hover: rgba(255,255,255,0.04);
+      --nav-bg:   rgba(15,17,23,0.85);
       color-scheme: dark;
     }
-  }
-  :root[data-theme="dark"] {
-    --bg: #0f1720; --surface: #16202b; --surface-2: #1c2834; --text: #e7ecef;
-    --muted: #9aa7b2; --line: #263442; --accent: #3cc3a9; --accent-ink: #0b1a17;
-    --accent-soft: #15362f; --warn-bg: #3a2f10; --warn-text: #f3d27a;
-    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
-    color-scheme: dark;
-  }
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) {
+        --bg: #f8f9fc; --surface: #ffffff; --surface2: #f0f4ff; --accent: #2563eb; --accent2: #0891b2;
+        --text: #1e3a5f; --muted: #64748b; --border: rgba(0,0,0,0.08);
+        --tag-bg: rgba(37,99,235,0.08); --tag-c: #1d4ed8; --tag2-bg: rgba(8,145,178,0.08); --tag2-c: #0369a1;
+        --warn-bg: rgba(202,138,4,0.10); --warn-c: #854d0e;
+        --card-hover: rgba(0,0,0,0.03); --nav-bg: rgba(248,249,252,0.90);
+        color-scheme: light;
+      }
+    }
+    :root[data-theme="light"] {
+      --bg: #f8f9fc; --surface: #ffffff; --surface2: #f0f4ff; --accent: #2563eb; --accent2: #0891b2;
+      --text: #1e3a5f; --muted: #64748b; --border: rgba(0,0,0,0.08);
+      --tag-bg: rgba(37,99,235,0.08); --tag-c: #1d4ed8; --tag2-bg: rgba(8,145,178,0.08); --tag2-c: #0369a1;
+      --warn-bg: rgba(202,138,4,0.10); --warn-c: #854d0e;
+      --card-hover: rgba(0,0,0,0.03); --nav-bg: rgba(248,249,252,0.90);
+      color-scheme: light;
+    }
 
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-  body {
-    margin: 0; background: var(--bg); color: var(--text);
-    font: 16px/1.6 var(--sans); overflow-x: hidden;
-  }
-  a { color: var(--accent); }
-  img, svg { max-width: 100%; }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
-  .skip { position: absolute; left: -999px; }
-  .skip:focus { left: 16px; top: 8px; z-index: 50; background: var(--surface); padding: 8px 12px; border-radius: 8px; }
-  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    /* ── Reset & base ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      background: var(--bg); color: var(--text);
+      font-size: 16px; line-height: 1.7; overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    ::selection { background: var(--accent); color: #fff; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
 
-  /* Header */
-  header.top {
-    position: sticky; top: 0; z-index: 20;
-    background: color-mix(in srgb, var(--bg) 88%, transparent);
-    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--line);
-  }
-  .top .wrap { display: flex; align-items: center; gap: 12px; height: 60px; }
-  .brand { font-family: var(--mono); font-weight: 700; text-decoration: none; color: var(--text); font-size: 17px; }
-  .brand span { color: var(--accent); }
-  nav.links { display: none; gap: 20px; margin-left: auto; }
-  nav.links a { color: var(--muted); text-decoration: none; font-size: 15px; }
-  nav.links a:hover { color: var(--text); }
-  .top-actions { margin-left: auto; display: flex; gap: 8px; align-items: center; }
-  @media (min-width: 820px) { nav.links { display: flex; } .top-actions { margin-left: 16px; } }
-  .icon-btn {
-    width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--line);
-    background: var(--surface); color: var(--text); cursor: pointer; display: grid; place-items: center;
-  }
+    .skip-link {
+      position: absolute; top: -100px; left: 1rem; z-index: 9999;
+      background: var(--accent); color: #fff; padding: 8px 16px;
+      border-radius: 0 0 8px 8px; font-size: 14px; font-weight: 600; transition: top 0.2s;
+    }
+    .skip-link:focus { top: 0; }
 
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    min-height: 46px; padding: 0 20px; border-radius: 12px; font-weight: 600;
-    text-decoration: none; border: 1px solid transparent; font-size: 16px;
-  }
-  .btn-primary { background: var(--accent); color: var(--accent-ink); }
-  .btn-primary:hover { filter: brightness(1.07); }
-  .btn-ghost { border-color: var(--line); color: var(--text); background: var(--surface); }
-  .btn-sm { min-height: 40px; padding: 0 14px; font-size: 15px; }
+    /* ── Navbar ───────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem; height: 56px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px; min-width: 0;
+      font-weight: 700; font-size: 15px; color: var(--text); letter-spacing: -0.02em;
+    }
+    .nav-logo:hover { text-decoration: none; }
+    .nav-logo img { width: 32px; height: 32px; flex-shrink: 0; }
+    :root:not([data-theme="light"]) .nav-logo img { filter: brightness(1.6) saturate(0.85); }
+    @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .nav-logo img { filter: none; } }
+    .nav-logo-text span { color: var(--accent); }
+    .nav-logo-sub { color: var(--muted); font-weight: 500; white-space: nowrap; }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; list-style: none; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    .nav-links .back { color: var(--accent); }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .lang-btn, .theme-btn, .hamburger {
+      background: none; border: 1px solid var(--border); border-radius: 8px; cursor: pointer;
+      color: var(--muted); font-family: inherit; transition: border-color 0.2s, color 0.2s;
+      min-height: 34px;
+    }
+    .lang-btn { padding: 5px 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; white-space: nowrap; }
+    .lang-btn b { color: var(--accent); font-weight: 700; }
+    .theme-btn { padding: 6px 10px; font-size: 16px; line-height: 1; }
+    .lang-btn:hover, .theme-btn:hover, .hamburger:hover { border-color: var(--accent); color: var(--accent); }
+    .cta-nav {
+      font-size: 13px; font-weight: 600; background: var(--accent); color: #fff;
+      border-radius: 8px; padding: 7px 16px; white-space: nowrap; transition: opacity 0.2s;
+    }
+    .cta-nav:hover { opacity: 0.88; text-decoration: none; }
+    .hamburger { display: none; font-size: 20px; padding: 2px 10px; }
 
-  /* Hero */
-  .hero { padding: 56px 0 40px; }
-  .eyebrow {
-    display: inline-block; font-family: var(--mono); font-size: 13px; color: var(--accent);
-    background: var(--accent-soft); padding: 4px 10px; border-radius: 999px; margin-bottom: 18px;
-  }
-  .hero h1 { font-size: clamp(30px, 7vw, 52px); line-height: 1.12; margin: 0 0 18px; letter-spacing: -0.02em; }
-  .hero h1 em { font-style: normal; color: var(--accent); }
-  .hero p.lead { font-size: clamp(17px, 2.6vw, 20px); color: var(--muted); max-width: 680px; margin: 0 0 28px; }
-  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
-  .cta-row .btn { flex: 1 1 200px; }
-  @media (min-width: 600px) { .cta-row .btn { flex: 0 0 auto; } }
-  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 36px; max-width: 620px; }
-  .stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 12px; }
-  .stat b { display: block; font-size: 22px; font-family: var(--mono); }
-  .stat span { font-size: 13px; color: var(--muted); line-height: 1.35; display: block; }
+    /* ── Sections ─────────────────────────────────────────── */
+    section { padding: 96px 2rem; max-width: 1000px; margin: 0 auto; }
+    .eyebrow {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+    }
+    h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; }
+    h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.5rem; line-height: 1.25; }
+    h3 { font-size: 1.05rem; font-weight: 700; line-height: 1.35; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+    .intro { color: var(--muted); max-width: 600px; margin-bottom: 40px; }
+    h2 + .steps, h2 + .notice, h2 + .faq { margin-top: 32px; }
 
-  /* Sections */
-  section { padding: 56px 0; }
-  section.alt { background: var(--surface-2); }
-  .sec-head { margin-bottom: 28px; max-width: 700px; }
-  .sec-head .kicker { font-family: var(--mono); font-size: 13px; color: var(--accent); text-transform: uppercase; letter-spacing: .08em; }
-  .sec-head h2 { font-size: clamp(25px, 5vw, 36px); margin: 6px 0 10px; line-height: 1.2; letter-spacing: -0.01em; }
-  .sec-head p { color: var(--muted); margin: 0; }
+    /* ── Hero ─────────────────────────────────────────────── */
+    #hero { padding-top: 150px; padding-bottom: 88px; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+    .tag { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; letter-spacing: 0.04em; }
+    .tag-a { background: var(--tag-bg); color: var(--tag-c); }
+    .tag-b { background: var(--tag2-bg); color: var(--tag2-c); }
+    .tag-n { background: var(--border); color: var(--muted); }
+    .hero-brand { font-size: 1rem; font-weight: 500; color: var(--accent); margin: 14px 0 0; }
+    .hero-sub { font-size: 1.15rem; color: var(--muted); margin: 18px 0 34px; max-width: 640px; line-height: 1.65; }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .btn-primary, .btn-ghost {
+      font-family: inherit; font-size: 15px; border-radius: 10px; padding: 13px 28px;
+      display: inline-block; text-align: center; transition: opacity 0.2s, transform 0.15s, border-color 0.2s, color 0.2s;
+    }
+    .btn-primary { font-weight: 600; background: var(--accent); color: #fff; }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); text-decoration: none; }
+    .btn-ghost { font-weight: 500; color: var(--muted); border: 1px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); text-decoration: none; }
+    .typewriter-wrap { margin: 44px 0 0; font-family: 'Space Grotesk', monospace; font-size: 13px; color: var(--muted); min-height: 1.7em; overflow-wrap: anywhere; }
+    .typewriter-prompt { color: var(--accent2); margin-right: 6px; }
+    #typewriter { color: var(--text); }
+    .cursor { display: inline-block; width: 2px; height: 14px; background: var(--accent); margin-left: 2px; vertical-align: middle; animation: blink 1s step-end infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .stat-row { display: flex; flex-wrap: wrap; gap: 32px; margin-top: 40px; }
+    .stat { display: flex; flex-direction: column; }
+    .stat-num { font-size: 2rem; font-weight: 700; color: var(--text); line-height: 1; }
+    .stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
 
-  .grid { display: grid; gap: 14px; grid-template-columns: 1fr; }
-  @media (min-width: 640px) { .grid.two, .grid.three { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 960px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+    /* ── Projects ─────────────────────────────────────────── */
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .filter {
+      font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+      padding: 7px 14px; border-radius: 20px; border: 1px solid var(--border);
+      background: none; color: var(--muted); transition: all 0.2s; min-height: 36px;
+    }
+    .filter:hover { border-color: var(--accent); color: var(--accent); }
+    .filter[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px; }
+    .project-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 26px;
+      display: flex; flex-direction: column; transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .project-card:hover { background: var(--card-hover); border-color: var(--accent2); transform: translateY(-2px); }
+    .project-card[hidden] { display: none; }
+    .project-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+    .project-meta { font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; font-weight: 600; }
+    .status { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 20px; white-space: nowrap; }
+    .project-card h3 { margin-bottom: 8px; font-size: 1.15rem; }
+    .project-card p { font-size: 14px; color: var(--muted); line-height: 1.6; flex: 1; }
+    .stags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+    .stag { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 5px; background: var(--surface2); color: var(--muted); }
+    .project-links { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 18px; }
+    .project-link { font-size: 13px; font-weight: 600; color: var(--accent); display: inline-flex; align-items: center; gap: 4px; transition: gap 0.2s; min-height: 32px; }
+    .project-link:hover { gap: 8px; text-decoration: none; }
+    .more-title { margin: 56px 0 6px; font-size: 1.15rem; }
+    .more-intro { color: var(--muted); font-size: 14px; margin-bottom: 16px; }
+    .more-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 10px; }
+    .more-list a {
+      display: block; height: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: 12px;
+      background: var(--surface); color: var(--text); transition: border-color 0.2s;
+    }
+    .more-list a:hover { border-color: var(--accent); text-decoration: none; }
+    .more-list strong { font-size: 14px; display: block; }
+    .more-list span { font-size: 13px; color: var(--muted); line-height: 1.5; display: block; margin-top: 2px; }
+    .empty { color: var(--muted); font-size: 14px; padding: 12px 0; }
 
-  .card {
-    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 22px; box-shadow: var(--shadow); display: flex; flex-direction: column;
-  }
-  .card h3 { margin: 12px 0 6px; font-size: 19px; line-height: 1.3; }
-  .card p { margin: 0 0 14px; color: var(--muted); font-size: 15.5px; }
-  .ico {
-    width: 42px; height: 42px; border-radius: 11px; background: var(--accent-soft); color: var(--accent);
-    display: grid; place-items: center;
-  }
-  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding: 0; list-style: none; }
-  .tags li { font-family: var(--mono); font-size: 12px; padding: 3px 8px; border-radius: 6px; background: var(--surface-2); color: var(--muted); }
+    /* ── Why ──────────────────────────────────────────────── */
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 16px; }
+    .why-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; transition: border-color 0.2s; }
+    .why-card:hover { border-color: var(--accent); }
+    .why-num { font-size: 13px; font-weight: 700; color: var(--accent2); margin-bottom: 8px; display: block; }
+    .why-card h3 { margin-bottom: 6px; }
+    .why-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
 
-  /* Projects */
-  .proj .meta { font-family: var(--mono); font-size: 12px; color: var(--muted); }
-  .proj h3 { margin-top: 6px; font-family: var(--mono); }
-  .proj .links { display: flex; gap: 14px; flex-wrap: wrap; margin-top: auto; font-weight: 600; font-size: 15px; }
-  .proj .links a { text-decoration: none; }
-  .proj .links a:hover { text-decoration: underline; }
+    /* ── Process ──────────────────────────────────────────── */
+    .steps { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr)); gap: 16px; counter-reset: s; }
+    .steps li { counter-increment: s; border-left: 2px solid var(--accent); padding: 4px 0 4px 16px; }
+    .steps li::before { content: "0" counter(s); font-size: 13px; font-weight: 700; color: var(--accent); display: block; }
+    .steps strong { display: block; margin: 2px 0 4px; }
+    .steps span { font-size: 14px; color: var(--muted); line-height: 1.6; display: block; }
 
-  /* Why */
-  .why { display: grid; gap: 14px; grid-template-columns: 1fr; }
-  @media (min-width: 720px) { .why { grid-template-columns: 1fr 1fr; } }
-  .why-item { display: flex; gap: 14px; align-items: flex-start; padding: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
-  .why-item .num { font-family: var(--mono); font-weight: 700; color: var(--accent); font-size: 15px; min-width: 26px; padding-top: 2px; }
-  .why-item h3 { margin: 0 0 4px; font-size: 17.5px; }
-  .why-item p { margin: 0; color: var(--muted); font-size: 15.5px; }
+    /* ── Testimonials (EJEMPLO) ───────────────────────────── */
+    .notice {
+      display: flex; gap: 10px; align-items: flex-start; background: var(--warn-bg); color: var(--warn-c);
+      border-radius: 12px; padding: 12px 16px; font-size: 14px; margin-bottom: 20px; line-height: 1.55;
+    }
+    .quote-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 16px; }
+    .quote { background: var(--surface); border: 1px dashed var(--border); border-radius: 14px; padding: 24px; margin: 0; display: flex; flex-direction: column; }
+    .quote .badge { align-self: flex-start; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: var(--warn-bg); color: var(--warn-c); padding: 2px 9px; border-radius: 5px; margin-bottom: 14px; }
+    .quote blockquote { font-size: 15px; line-height: 1.6; margin-bottom: 16px; flex: 1; }
+    .quote figcaption { font-size: 13px; color: var(--muted); }
+    .quote figcaption strong { display: block; color: var(--text); font-size: 14px; }
 
-  /* Process */
-  .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; counter-reset: s; }
-  @media (min-width: 820px) { .steps { grid-template-columns: repeat(4, 1fr); } }
-  .steps li { counter-increment: s; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; }
-  .steps li::before { content: "0" counter(s); font-family: var(--mono); color: var(--accent); font-weight: 700; display: block; margin-bottom: 4px; }
-  .steps b { display: block; margin-bottom: 4px; }
-  .steps span { color: var(--muted); font-size: 15px; }
+    /* ── FAQ ──────────────────────────────────────────────── */
+    .faq { display: grid; gap: 10px; }
+    .faq details { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; transition: border-color 0.2s; }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; list-style: none; padding: 16px 48px 16px 20px; font-weight: 600; position: relative; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after { content: "+"; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 20px; color: var(--accent); font-weight: 500; }
+    .faq details[open] summary::after { content: "−"; }
+    .faq .answer { padding: 0 20px 18px; color: var(--muted); font-size: 15px; }
 
-  /* Testimonials */
-  .notice {
-    display: flex; gap: 10px; align-items: flex-start; background: var(--warn-bg); color: var(--warn-text);
-    border-radius: 12px; padding: 12px 14px; font-size: 14.5px; margin-bottom: 18px;
-  }
-  .quote { position: relative; margin: 0; }
-  .quote .badge {
-    position: absolute; top: 14px; right: 14px; font-family: var(--mono); font-size: 11px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: .06em; background: var(--warn-bg); color: var(--warn-text);
-    padding: 3px 8px; border-radius: 6px;
-  }
-  .quote blockquote { margin: 26px 0 14px; font-size: 16px; line-height: 1.55; }
-  .quote figcaption { color: var(--muted); font-size: 14px; margin-top: auto; }
-  .quote figcaption b { color: var(--text); display: block; }
+    /* ── Contact ──────────────────────────────────────────── */
+    #contact { text-align: center; }
+    .contact-sub { color: var(--muted); max-width: 500px; margin: 16px auto 36px; }
+    .contact-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .contact-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 24px;
+      display: flex; align-items: center; gap: 12px; color: var(--text); transition: border-color 0.2s, transform 0.2s;
+    }
+    .contact-card:hover { border-color: var(--accent); transform: translateY(-2px); text-decoration: none; }
+    .contact-icon { font-size: 22px; }
+    .contact-info { text-align: left; }
+    .contact-info strong { display: block; font-size: 14px; }
+    .contact-info span { font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
 
-  /* FAQ */
-  .faq { display: grid; gap: 10px; max-width: 820px; }
-  .faq details { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
-  .faq summary {
-    cursor: pointer; list-style: none; padding: 16px 48px 16px 18px; font-weight: 600; position: relative; min-height: 44px;
-  }
-  .faq summary::-webkit-details-marker { display: none; }
-  .faq summary::after {
-    content: "+"; position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
-    font-family: var(--mono); font-size: 20px; color: var(--accent);
-  }
-  .faq details[open] summary::after { content: "−"; }
-  .faq details > div { padding: 0 18px 16px; color: var(--muted); }
-  .faq details > div p { margin: 0 0 8px; }
+    /* ── Footer ───────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border); padding: 32px 2rem; max-width: 1000px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; align-items: center;
+      font-size: 13px; color: var(--muted);
+    }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--accent); }
 
-  /* Contact */
-  .contact-box {
-    background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 28px 20px;
-    box-shadow: var(--shadow); text-align: center;
-  }
-  .contact-box h2 { font-size: clamp(25px, 5vw, 34px); margin: 0 0 10px; }
-  .contact-box p { color: var(--muted); max-width: 560px; margin: 0 auto 22px; }
-  .contact-links { display: grid; gap: 10px; grid-template-columns: 1fr; max-width: 720px; margin: 0 auto; }
-  @media (min-width: 640px) { .contact-links { grid-template-columns: 1fr 1fr; } }
-  .contact-links a {
-    display: flex; align-items: center; gap: 12px; text-align: left; padding: 14px 16px; border-radius: 12px;
-    border: 1px solid var(--line); text-decoration: none; color: var(--text); background: var(--bg); min-height: 56px;
-  }
-  .contact-links a:hover { border-color: var(--accent); }
-  .contact-links small { display: block; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+    /* ── Scroll reveal ────────────────────────────────────── */
+    .js .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .js .reveal.visible { opacity: 1; transform: none; }
 
-  footer { padding: 28px 0 40px; color: var(--muted); font-size: 14px; text-align: center; }
-  footer a { color: var(--muted); }
-</style>
+    /* ── Responsive ───────────────────────────────────────── */
+    @media (max-width: 860px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column; align-items: flex-start; gap: 0;
+        position: absolute; top: 56px; left: 0; right: 0;
+        background: var(--bg); border-bottom: 1px solid var(--border); padding: 8px 1.25rem 16px;
+      }
+      .nav-links.open a { display: block; padding: 10px 0; font-size: 16px; }
+      .hamburger { display: block; }
+      .cta-nav { display: none; }
+    }
+    @media (max-width: 700px) {
+      nav { padding: 0 1rem; }
+      section { padding: 72px 1rem; }
+      #hero { padding-top: 112px; padding-bottom: 64px; }
+      .stat-row { gap: 24px; }
+      .hero-cta a { flex: 1 1 200px; }
+      footer { padding: 28px 1rem; justify-content: center; text-align: center; }
+    }
+    @media (max-width: 420px) {
+      .nav-logo-sub { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .cursor { animation: none; }
+      .js .reveal { opacity: 1; transform: none; transition: none; }
+      .btn-primary:hover, .btn-ghost:hover, .project-card:hover, .contact-card:hover { transform: none; }
+    }
+  </style>
 </head>
 <body>
-<a class="skip" href="#main">Saltar al contenido</a>
+  <a href="#projects" class="skip-link" data-i18n="skip">Saltar al contenido</a>
 
-<header class="top">
-  <div class="wrap">
-    <a class="brand" href="#inicio">ac<span>.</span>scicomp</a>
-    <nav class="links" aria-label="Secciones">
-      <a href="#servicios">Servicios</a>
-      <a href="#proyectos">Proyectos</a>
-      <a href="#por-que">Por qué yo</a>
-      <a href="#faq">Preguntas</a>
-    </nav>
-    <div class="top-actions">
-      <button class="icon-btn" id="theme" type="button" aria-label="Cambiar tema claro/oscuro">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-      </button>
-      <a class="btn btn-primary btn-sm" href="#contacto">Contactar</a>
+  <!-- ── Navbar ──────────────────────────────────────────── -->
+  <nav aria-label="Principal">
+    <a href="#hero" class="nav-logo" aria-label="ac.scicomp — portafolio">
+      <img src="assets/img/logo-acscicomp.svg" alt="" width="32" height="32">
+      <span class="nav-logo-text">ac<span>.</span>scicomp</span>
+      <span class="nav-logo-sub">/ <span data-i18n="nav.portfolio">portafolio</span></span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#projects" data-i18n="nav.projects">Proyectos</a></li>
+      <li><a href="#why" data-i18n="nav.why">Por qué yo</a></li>
+      <li><a href="#faq" data-i18n="nav.faq">Preguntas</a></li>
+      <li><a href="#contact" data-i18n="nav.contact">Contacto</a></li>
+      <li><a href="https://acscicomp.com/" class="back" data-i18n="nav.back">← acscicomp.com</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="lang-btn" id="lang-toggle" type="button" aria-label="Cambiar idioma / Change language"><span data-l="en">EN</span> / <span data-l="es">ES</span></button>
+      <button class="theme-btn" id="theme-toggle" type="button" aria-label="Cambiar tema claro/oscuro">🌙</button>
+      <a href="https://www.fiverr.com/acardozos" target="_blank" rel="noopener noreferrer" class="cta-nav" data-i18n="nav.hire">Contrátame ↗</a>
+      <button class="hamburger" id="hamburger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links">☰</button>
     </div>
-  </div>
-</header>
+  </nav>
 
-<main id="main">
-  <!-- HERO -->
-  <div class="hero" id="inicio">
-    <div class="wrap">
-      <span class="eyebrow">Freelance · Open source · Colombia</span>
-      <h1>Herramientas que vuelven <em>computables</em> los problemas difíciles.</h1>
-      <p class="lead">
-        Soy Adolfo J. Cardozo S., ingeniero de computación científica. Construyo software en Python para
-        ciencia e ingeniería, modernizo código heredado en Fortran e integro IA en flujos de trabajo reales.
-        Y publico buena parte de lo que hago como código abierto.
-      </p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="#contacto">Cuéntame tu proyecto</a>
-        <a class="btn btn-ghost" href="#proyectos">Ver proyectos</a>
-      </div>
-      <div class="stats" aria-label="Datos rápidos">
-        <div class="stat"><b>~5</b><span>décadas entre ciencia y código</span></div>
-        <div class="stat"><b>ES/EN</b><span>trabajo en ambos idiomas</span></div>
-        <div class="stat"><b>1–3</b><span>proyectos a la vez, no más</span></div>
-      </div>
+  <main>
+  <!-- ── Hero ────────────────────────────────────────────── -->
+  <section id="hero">
+    <div class="hero-tags">
+      <span class="tag tag-a" data-i18n="tag.os">Código abierto</span>
+      <span class="tag tag-a">Fortran</span>
+      <span class="tag tag-b" data-i18n="tag.ai">IA / LLMs</span>
+      <span class="tag tag-b">Python</span>
+      <span class="tag tag-n">MIT · GitHub · PyPI</span>
     </div>
-  </div>
-
-  <!-- SERVICIOS -->
-  <section class="alt" id="servicios">
-    <div class="wrap">
-      <div class="sec-head">
-        <div class="kicker">Qué ofrezco</div>
-        <h2>Servicios</h2>
-        <p>Desarrollo de punta a punta: desde los datos crudos y el modelo físico hasta un sistema en Python que se puede instalar, probar y desplegar.</p>
-      </div>
-      <div class="grid three">
-        <article class="card">
-          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h10M4 17h6"/><path d="M17 15l3 3-3 3"/></svg></div>
-          <h3>Modernización de código heredado</h3>
-          <p>Análisis, refactorización y migración de código Fortran (F77/F90/F95), C/C++ y Python antiguo, sin perder fidelidad numérica.</p>
-          <ul class="tags"><li>Fortran</li><li>C/C++</li><li>Rust</li><li>Python</li></ul>
-        </article>
-        <article class="card">
-          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M5 19l3-3M16 8l3-3"/></svg></div>
-          <h3>IA aplicada y LLMs</h3>
-          <p>Integración de modelos de lenguaje, RAG y agentes con arquitectura limpia e independiente del proveedor (OpenAI, Anthropic, modelos locales con Ollama).</p>
-          <ul class="tags"><li>LLMs</li><li>RAG</li><li>Agentes</li><li>Ollama</li></ul>
-        </article>
-        <article class="card">
-          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12c3-6 6-6 10 0s7 6 10 0"/><path d="M2 18c3-6 6-6 10 0s7 6 10 0" opacity=".5"/></svg></div>
-          <h3>Modelación numérica y simulación</h3>
-          <p>Modelos determinísticos y estocásticos basados en ecuaciones físicas, calibrados y validados con datos reales. Especialidad en hidráulica y sedimentos.</p>
-          <ul class="tags"><li>HEC-RAS</li><li>SWMM</li><li>Elementos finitos</li><li>HPC</li></ul>
-        </article>
-        <article class="card">
-          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z"/><path d="M9 3v15M15 6v15"/></svg></div>
-          <h3>SIG y análisis espacial</h3>
-          <p>Flujos de datos espaciales, delimitación de cuencas, análisis de terreno y herramientas de mapeo con capas ráster y vectoriales.</p>
-          <ul class="tags"><li>GeoPandas</li><li>GDAL</li><li>QGIS</li><li>Rasterio</li></ul>
-        </article>
-        <article class="card">
-          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div>
-          <h3>Visión por computador</h3>
-          <p>Análisis de video en tiempo real, estimación de pose y detección de objetos ejecutándose en hardware local.</p>
-          <ul class="tags"><li>OpenCV</li><li>MediaPipe</li><li>YOLO</li><li>TensorFlow</li></ul>
-        </article>
-        <article class="card">
-          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01"/></svg></div>
-          <h3>Backends, APIs y herramientas</h3>
-          <p>APIs REST, automatización, CLIs, paneles interactivos y librerías publicadas en PyPI, con pruebas y documentación.</p>
-          <ul class="tags"><li>FastAPI</li><li>Flask</li><li>Streamlit</li><li>Docker</li></ul>
-        </article>
-      </div>
+    <h1 data-i18n="hero.title">Portafolio open source</h1>
+    <p class="hero-brand">Adolfo J. Cardozo S. · AC Scientific Computing</p>
+    <p class="hero-sub" data-i18n="hero.sub">
+      Lo que tengo público en GitHub, en un solo lugar: herramientas para entender y modernizar
+      código Fortran heredado, infraestructura para integrar modelos de lenguaje, utilidades
+      Python y proyectos de práctica. Código que puedes revisar antes de trabajar conmigo.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary" data-i18n="hero.cta1">Ver proyectos</a>
+      <a href="https://github.com/acdeveloper-sci" target="_blank" rel="noopener noreferrer" class="btn-ghost" data-i18n="hero.cta2">Perfil en GitHub ↗</a>
+    </div>
+    <div class="typewriter-wrap" aria-hidden="true">
+      <span class="typewriter-prompt">$</span><span id="typewriter"></span><span class="cursor"></span>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><span class="stat-num">~5</span><span class="stat-label" data-i18n="stat.1">décadas entre ciencia y código</span></div>
+      <div class="stat"><span class="stat-num">MIT</span><span class="stat-label" data-i18n="stat.2">licencia abierta</span></div>
+      <div class="stat"><span class="stat-num">EN/ES</span><span class="stat-label" data-i18n="stat.3">bilingüe</span></div>
     </div>
   </section>
 
-  <!-- PROYECTOS -->
-  <section id="proyectos">
-    <div class="wrap">
-      <div class="sec-head">
-        <div class="kicker">Código abierto</div>
-        <h2>Proyectos públicos</h2>
-        <p>Una muestra de lo que construyo. Todo con licencia MIT; el resto está en <a href="https://github.com/acdeveloper-sci">github.com/acdeveloper-sci</a>.</p>
-      </div>
-      <div class="grid three">
-        <article class="card proj">
-          <div class="meta">Python · Streamlit · IA · MVP</div>
-          <h3>fortriage</h3>
-          <p>Panel priorizado con IA para sistemas Fortran heredados: combina análisis estático, priorización de riesgos y un asistente conversacional para decidir qué modernizar primero.</p>
-          <div class="links">
-            <a href="https://fortriage.streamlit.app">Demo en vivo →</a>
-            <a href="https://github.com/acdeveloper-sci/fortriage">GitHub →</a>
-          </div>
-        </article>
-        <article class="card proj">
-          <div class="meta">Python · Análisis estático · PyPI</div>
-          <h3>forti4d</h3>
-          <p>Kit de análisis estático para código Fortran real y mixto (F77/F90/F95), donde los parsers genéricos fallan. Pipeline de 19 pasos reanudable.</p>
-          <div class="links">
-            <a href="https://github.com/acdeveloper-sci/forti4d">GitHub →</a>
-          </div>
-        </article>
-        <article class="card proj">
-          <div class="meta">Python · LLMs · Arquitectura</div>
-          <h3>odwi-llm</h3>
-          <p>Capa de acceso a LLMs independiente del proveedor, con diseño de puertos y adaptadores (LiteLLM, Any-LLM o SDK nativos intercambiables) y un núcleo de orquestación.</p>
-          <div class="links">
-            <a href="https://github.com/acdeveloper-sci/odwi-llm">GitHub →</a>
-          </div>
-        </article>
-        <article class="card proj">
-          <div class="meta">Python · Librería · PyPI</div>
-          <h3>acfortformat</h3>
-          <p>Lectura y escritura de datos con sintaxis de formatos Fortran desde Python: formatos fijos y libres, inferencia de tipos y salida con formato.</p>
-          <div class="links">
-            <a href="https://pypi.org/project/acfortformat/">PyPI →</a>
-            <a href="https://github.com/acdeveloper-sci/acfortformat">GitHub →</a>
-          </div>
-        </article>
-        <article class="card proj">
-          <div class="meta">Python · CLI · Multiplataforma</div>
-          <h3>envscout</h3>
-          <p>Encuentra y administra todos los entornos virtuales de Python en tu disco: venv, conda, poetry, uv, pipenv y más. Escaneo rápido y en paralelo.</p>
-          <div class="links">
-            <a href="https://github.com/acdeveloper-sci/envscout">GitHub →</a>
-          </div>
-        </article>
-        <article class="card proj">
-          <div class="meta">Python · IA · Formación</div>
-          <h3>cf-ai-engineer-course</h3>
-          <p>Proyectos de ingeniería de IA (APIs de LLM, RAG, agentes) llevados más allá del material del curso, con refactorización orientada a objetos y modelos abiertos.</p>
-          <div class="links">
-            <a href="https://github.com/acdeveloper-sci/cf-ai-engineer-course">GitHub →</a>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
+  <hr class="divider">
 
-  <!-- POR QUÉ -->
-  <section class="alt" id="por-que">
-    <div class="wrap">
-      <div class="sec-head">
-        <div class="kicker">Por qué elegirme</div>
-        <h2>Ciencia e ingeniería de software, en la misma persona</h2>
-        <p>No soy un ingeniero que aprendió a programar, ni un programador que sabe algo de hidráulica: he desarrollado modelos matemáticos, los he implementado en Fortran de alto rendimiento y los he corrido en clústeres HPC.</p>
-      </div>
-      <div class="why">
-        <div class="why-item"><div class="num">01</div><div><h3>Entiendo el problema, no solo el código</h3><p>Ingeniero civil e investigador doctoral. Hablo el idioma de tu dominio y detecto cuándo un resultado “corre” pero no tiene sentido físico.</p></div></div>
-        <div class="why-item"><div class="num">02</div><div><h3>Alcance claro desde el día uno</h3><p>Trato la ambigüedad como un riesgo. Defino el alcance con cuidado, explico límites y complejidad antes de empezar, y solo me comprometo con lo que puedo entregar bien.</p></div></div>
-        <div class="why-item"><div class="num">03</div><div><h3>Atención real a tu proyecto</h3><p>Tomo como máximo de uno a tres proyectos a la vez. Hablas directamente con quien escribe el código.</p></div></div>
-        <div class="why-item"><div class="num">04</div><div><h3>Código que puedes revisar</h3><p>Mi trabajo público está en GitHub y PyPI. Antes de contratarme puedes ver cómo estructuro, pruebo y documento.</p></div></div>
-        <div class="why-item"><div class="num">05</div><div><h3>Bilingüe: español e inglés</h3><p>Documentación, reuniones y entregables en el idioma que necesite tu equipo.</p></div></div>
-        <div class="why-item"><div class="num">06</div><div><h3>Rigor académico verificable</h3><p>Miembro de IAHR desde 2010 y revisor activo del <i>Journal of Hydroinformatics</i> (IWA Publishing / IAHR).</p></div></div>
-      </div>
-    </div>
-  </section>
+  <!-- ── Projects ────────────────────────────────────────── -->
+  <section id="projects">
+    <p class="eyebrow" data-i18n="proj.eyebrow">Proyectos destacados</p>
+    <h2 data-i18n="proj.title">Lo que estoy construyendo</h2>
+    <p class="intro" data-i18n="proj.intro">Filtra por área. Cada tarjeta enlaza al repositorio, y a la demo o al paquete cuando existen.</p>
 
-  <!-- PROCESO -->
-  <section id="proceso">
-    <div class="wrap">
-      <div class="sec-head">
-        <div class="kicker">Cómo trabajo</div>
-        <h2>Del problema a la entrega, en cuatro pasos</h2>
-      </div>
-      <ol class="steps">
-        <li><b>Conversación inicial</b><span>Me cuentas el problema, los datos y las restricciones. Sin costo.</span></li>
-        <li><b>Propuesta y alcance</b><span>Entregables, plazos y precio por escrito. Lo que no está claro, se aclara aquí.</span></li>
-        <li><b>Desarrollo iterativo</b><span>Avances frecuentes en un repositorio que tú puedes ver, con pruebas.</span></li>
-        <li><b>Entrega y traspaso</b><span>Código, documentación e instrucciones para que tu equipo pueda continuar.</span></li>
-      </ol>
+    <div class="filters" role="group" aria-label="Filtrar proyectos">
+      <button class="filter" type="button" data-filter="all" aria-pressed="true" data-i18n="f.all">Todos</button>
+      <button class="filter" type="button" data-filter="fortran" aria-pressed="false">Fortran</button>
+      <button class="filter" type="button" data-filter="ai" aria-pressed="false" data-i18n="f.ai">IA / LLMs</button>
+      <button class="filter" type="button" data-filter="tools" aria-pressed="false" data-i18n="f.tools">Herramientas Python</button>
+      <button class="filter" type="button" data-filter="web" aria-pressed="false">Web</button>
     </div>
-  </section>
 
-  <!-- TESTIMONIOS -->
-  <section class="alt" id="testimonios">
-    <div class="wrap">
-      <div class="sec-head">
-        <div class="kicker">Testimonios</div>
-        <h2>Lo que dicen los clientes</h2>
-      </div>
-      <div class="notice" role="note">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="flex:none;margin-top:1px"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16h.01"/></svg>
-        <span><b>Textos de ejemplo.</b> Estos testimonios son ficticios y solo muestran el formato de la sección. Reemplázalos por comentarios reales de clientes (con su permiso) antes de publicar.</span>
-      </div>
-      <div class="grid three">
-        <figure class="card quote">
-          <span class="badge">Ejemplo</span>
-          <blockquote>“Teníamos un modelo en Fortran de los años 90 que nadie se atrevía a tocar. Ahora corre como librería de Python, con pruebas y los mismos resultados numéricos.”</blockquote>
-          <figcaption><b>Nombre de ejemplo</b>Líder técnico · Empresa de consultoría ambiental</figcaption>
-        </figure>
-        <figure class="card quote">
-          <span class="badge">Ejemplo</span>
-          <blockquote>“Lo que más valoré fue la claridad: desde la propuesta supimos qué se iba a entregar, qué no, y por qué.”</blockquote>
-          <figcaption><b>Nombre de ejemplo</b>Investigadora · Grupo universitario</figcaption>
-        </figure>
-        <figure class="card quote">
-          <span class="badge">Ejemplo</span>
-          <blockquote>“Integró un asistente con LLM a nuestro flujo de análisis sin amarrarnos a un solo proveedor. Pudimos cambiar a un modelo local sin reescribir nada.”</blockquote>
-          <figcaption><b>Nombre de ejemplo</b>Gerente de producto · Startup de datos</figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq">
-    <div class="wrap">
-      <div class="sec-head">
-        <div class="kicker">Preguntas frecuentes</div>
-        <h2>Antes de escribirme</h2>
-      </div>
-      <div class="faq">
-        <details>
-          <summary>¿Qué tipo de proyectos aceptas?</summary>
-          <div><p>Proyectos donde el software toca ciencia o ingeniería: modelos numéricos, análisis de datos, SIG, visión por computador, integración de IA, y sobre todo modernización de código heredado (Fortran, C/C++, Python antiguo). También backends y herramientas en Python en general.</p></div>
-        </details>
-        <details>
-          <summary>¿Cuánto cuesta un proyecto?</summary>
-          <div><p>Depende del alcance. Después de una primera conversación te envío una propuesta escrita con precio cerrado por entregables o tarifa por hora, según lo que tenga más sentido. La conversación inicial no tiene costo.</p></div>
-        </details>
-        <details>
-          <summary>¿Cómo se contrata y se paga?</summary>
-          <div><p>Puedes contratarme a través de <a href="https://www.fiverr.com/acardozos">Fiverr</a>, que protege el pago para ambas partes, o directamente por correo para acordar un contrato y forma de pago.</p></div>
-        </details>
-        <details>
-          <summary>¿Trabajas con equipos fuera de Colombia?</summary>
-          <div><p>Sí. Trabajo de forma remota, en español o inglés, y me adapto a la zona horaria de tu equipo para las reuniones clave.</p></div>
-        </details>
-        <details>
-          <summary>¿De quién es el código que escribo para ti?</summary>
-          <div><p>Tuyo. Al terminar y pagar el proyecto, el código y la propiedad intelectual son del cliente. Si quieres publicar parte como código abierto, te ayudo a hacerlo; si es confidencial, se queda privado y firmo un acuerdo de confidencialidad si lo necesitas.</p></div>
-        </details>
-        <details>
-          <summary>Mi código Fortran es muy antiguo y nadie lo entiende. ¿Puedes ayudar?</summary>
-          <div><p>Es justamente mi especialidad. Primero lo analizo (dependencias, complejidad, riesgos) con herramientas propias como forti4d y fortriage, y te digo qué conviene modernizar primero. Luego decidimos juntos: envolverlo para usarlo desde Python, refactorizarlo o migrarlo, siempre verificando que los resultados numéricos no cambien.</p></div>
-        </details>
-        <details>
-          <summary>¿Cuánto tarda un proyecto típico?</summary>
-          <div><p>Desde unos días para un script o una corrección puntual, hasta varias semanas o meses para una migración o un sistema completo. En la propuesta queda un calendario con entregas parciales.</p></div>
-        </details>
-        <details>
-          <summary>¿Das soporte después de la entrega?</summary>
-          <div><p>Sí. Incluyo un periodo de corrección de errores sobre lo entregado, y si lo necesitas podemos acordar mantenimiento o mejoras continuas.</p></div>
-        </details>
-        <details>
-          <summary>¿Puedo contribuir a tus proyectos de código abierto?</summary>
-          <div><p>¡Claro! Abre un <i>issue</i> o un <i>pull request</i> en el repositorio en GitHub. Algunos proyectos tienen una guía <code>CONTRIBUTING.md</code> con los detalles.</p></div>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACTO -->
-  <section id="contacto" style="padding-top:8px">
-    <div class="wrap">
-      <div class="contact-box">
-        <h2>¿Trabajamos juntos?</h2>
-        <p>Cuéntame en pocas líneas qué problema quieres resolver. Te respondo con preguntas concretas o con una propuesta.</p>
-        <div class="contact-links">
-          <a href="mailto:acardozos@acscicomp.com?subject=Proyecto%20freelance">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
-            <span>Correo<small>acardozos@acscicomp.com</small></span>
-          </a>
-          <a href="https://www.fiverr.com/acardozos">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
-            <span>Fiverr<small>Contratar un proyecto</small></span>
-          </a>
-          <a href="https://co.linkedin.com/in/acardozos">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7h.01M11 17v-4a2 2 0 0 1 4 0v4M11 10v7"/></svg>
-            <span>LinkedIn<small>acardozos</small></span>
-          </a>
-          <a href="https://github.com/acdeveloper-sci">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 0 0-.9-2.6c3.1-.4 6.4-1.5 6.4-6.9A5.4 5.4 0 0 0 20 4.8 5 5 0 0 0 19.9 1S18.7.6 16 2.5a13.4 13.4 0 0 0-7 0C6.3.6 5.1 1 5.1 1A5 5 0 0 0 5 4.8a5.4 5.4 0 0 0-1.5 3.8c0 5.4 3.3 6.5 6.4 6.9a3.4 3.4 0 0 0-.9 2.6V22"/></svg>
-            <span>GitHub<small>acdeveloper-sci</small></span>
-          </a>
+    <div class="projects-grid" id="projects-grid">
+      <article class="project-card reveal" data-cat="fortran ai">
+        <div class="project-top"><span class="project-meta">Python · Streamlit · IA</span><span class="status tag-b" data-i18n="st.live">Demo en vivo</span></div>
+        <h3>fortriage</h3>
+        <p data-i18n="p.fortriage">Panel priorizado con IA para sistemas Fortran heredados. Combina análisis estático, priorización de riesgos, visualización interactiva y un asistente conversacional para decidir qué modernizar primero.</p>
+        <div class="stags"><span class="stag">Streamlit</span><span class="stag">LLMs</span><span class="stag">F77/F90</span></div>
+        <div class="project-links">
+          <a class="project-link" href="https://fortriage.streamlit.app" target="_blank" rel="noopener noreferrer" data-i18n="l.demo">Probar demo →</a>
+          <a class="project-link" href="https://github.com/acdeveloper-sci/fortriage" target="_blank" rel="noopener noreferrer">GitHub →</a>
         </div>
-      </div>
+      </article>
+
+      <article class="project-card reveal" data-cat="fortran tools">
+        <div class="project-top"><span class="project-meta" data-i18n="m.forti4d">Python · Análisis estático</span><span class="status tag-a">Alpha</span></div>
+        <h3>forti4d</h3>
+        <p data-i18n="p.forti4d">Kit de análisis estático para código Fortran real y mixto (F77/F90/F95), justo donde los parsers genéricos fallan. Pipeline de 19 pasos, reanudable, con registro detallado.</p>
+        <div class="stags"><span class="stag">Fortran 77/90/95</span><span class="stag">CLI</span><span class="stag">uv</span></div>
+        <div class="project-links">
+          <a class="project-link" href="https://github.com/acdeveloper-sci/forti4d" target="_blank" rel="noopener noreferrer">GitHub →</a>
+        </div>
+      </article>
+
+      <article class="project-card reveal" data-cat="ai">
+        <div class="project-top"><span class="project-meta" data-i18n="m.odwi">Python · Arquitectura</span><span class="status tag-a">CI</span></div>
+        <h3>odwi-llm</h3>
+        <p data-i18n="p.odwi">Capa de acceso a LLMs independiente del proveedor. Diseño de puertos y adaptadores: LiteLLM, Any-LLM o SDKs nativos intercambiables, más un núcleo de políticas, contexto y orquestación.</p>
+        <div class="stags"><span class="stag">Python 3.13</span><span class="stag">Ollama</span><span class="stag">LiteLLM</span></div>
+        <div class="project-links">
+          <a class="project-link" href="https://github.com/acdeveloper-sci/odwi-llm" target="_blank" rel="noopener noreferrer">GitHub →</a>
+        </div>
+      </article>
+
+      <article class="project-card reveal" data-cat="fortran tools">
+        <div class="project-top"><span class="project-meta" data-i18n="m.acfort">Python · Librería</span><span class="status tag-b">PyPI</span></div>
+        <h3>acfortformat</h3>
+        <p data-i18n="p.acfort">Lectura y escritura de datos con la sintaxis de formatos de Fortran desde Python: formatos fijos y libres, inferencia de tipos y salida con formato.</p>
+        <div class="stags"><span class="stag">pip install</span><span class="stag">FORMAT</span><span class="stag">I/O</span></div>
+        <div class="project-links">
+          <a class="project-link" href="https://pypi.org/project/acfortformat/" target="_blank" rel="noopener noreferrer">PyPI →</a>
+          <a class="project-link" href="https://github.com/acdeveloper-sci/acfortformat" target="_blank" rel="noopener noreferrer">GitHub →</a>
+        </div>
+      </article>
+
+      <article class="project-card reveal" data-cat="tools">
+        <div class="project-top"><span class="project-meta" data-i18n="m.envscout">Python · CLI</span><span class="status tag-a">Alpha</span></div>
+        <h3>envscout</h3>
+        <p data-i18n="p.envscout">Encuentra y administra todos los entornos virtuales de Python de tu disco: venv, conda, poetry, uv, pipenv, hatch y más. Escaneo rápido, también en paralelo. Windows, Linux y macOS.</p>
+        <div class="stags"><span class="stag">CLI</span><span class="stag">Rich</span><span class="stag" data-i18n="t.xplat">Multiplataforma</span></div>
+        <div class="project-links">
+          <a class="project-link" href="https://github.com/acdeveloper-sci/envscout" target="_blank" rel="noopener noreferrer">GitHub →</a>
+        </div>
+      </article>
+
+      <article class="project-card reveal" data-cat="ai">
+        <div class="project-top"><span class="project-meta" data-i18n="m.course">Python · Formación</span><span class="status tag-n" data-i18n="st.wip">En curso</span></div>
+        <h3>cf-ai-engineer-course</h3>
+        <p data-i18n="p.course">Proyectos de ingeniería de IA (APIs de LLM, RAG, agentes) llevados más allá del material del curso: refactorización orientada a objetos e integración de modelos abiertos.</p>
+        <div class="stags"><span class="stag">RAG</span><span class="stag" data-i18n="t.agents">Agentes</span><span class="stag">uv</span></div>
+        <div class="project-links">
+          <a class="project-link" href="https://github.com/acdeveloper-sci/cf-ai-engineer-course" target="_blank" rel="noopener noreferrer">GitHub →</a>
+        </div>
+      </article>
+
+      <article class="project-card reveal" data-cat="web">
+        <div class="project-top"><span class="project-meta">JavaScript · Web</span><span class="status tag-b" data-i18n="st.live">Demo en vivo</span></div>
+        <h3>Snake Game</h3>
+        <p data-i18n="p.snake">El clásico Snake como juego de navegador independiente. Ligero, sin dependencias, desplegado en un subdominio propio.</p>
+        <div class="stags"><span class="stag">Vanilla JS</span></div>
+        <div class="project-links">
+          <a class="project-link" href="https://snake-game.acscicomp.com" target="_blank" rel="noopener noreferrer" data-i18n="l.play">Jugar →</a>
+        </div>
+      </article>
+    </div>
+    <p class="empty" id="empty" hidden data-i18n="empty">No hay proyectos destacados en esta categoría; revisa la lista de abajo.</p>
+
+    <h3 class="more-title" id="more-title" data-i18n="more.title">Más repositorios</h3>
+    <p class="more-intro" id="more-intro" data-i18n="more.intro">Prácticas, experimentos y proyectos anteriores. También están en GitHub.</p>
+    <ul class="more-list" id="more-list">
+      <li data-cat="web tools"><a href="https://github.com/acdeveloper-sci/flask-deploy" target="_blank" rel="noopener noreferrer"><strong>flask-deploy</strong><span data-i18n="r.flask">API en Flask con tareas en segundo plano (Celery), Docker y docker-compose.</span></a></li>
+      <li data-cat="web"><a href="https://github.com/acdeveloper-sci/nalavetsite" target="_blank" rel="noopener noreferrer"><strong>nalavetsite</strong><span data-i18n="r.nalavet">Aplicación web hecha solo con Python sobre Anvil.</span></a></li>
+      <li data-cat="web"><a href="https://github.com/acdeveloper-sci/acai-engineering-simple-web-site" target="_blank" rel="noopener noreferrer"><strong>acai-engineering-simple-web-site</strong><span data-i18n="r.acai">Sitio web sencillo en Anvil (Python) con plantillas propias.</span></a></li>
+      <li data-cat="web"><a href="https://github.com/acdeveloper-sci/tienda" target="_blank" rel="noopener noreferrer"><strong>tienda</strong><span data-i18n="r.tienda">Maqueta de tienda en línea con HTML, CSS y Bootstrap.</span></a></li>
+      <li data-cat="tools"><a href="https://github.com/acdeveloper-sci/actions_practice" target="_blank" rel="noopener noreferrer"><strong>actions_practice</strong><span data-i18n="r.actions">Flujos de GitHub Actions: variables, servicios, acciones propias y runners en varios sistemas.</span></a></li>
+      <li data-cat="ai tools"><a href="https://github.com/acdeveloper-sci/jupyter_colab_ssh" target="_blank" rel="noopener noreferrer"><strong>jupyter_colab_ssh</strong><span data-i18n="r.jupyter">Experimento con Jupyter y Google Colab vía SSH.</span></a></li>
+      <li data-cat="tools"><a href="https://github.com/acdeveloper-sci/netauto-git-practices" target="_blank" rel="noopener noreferrer"><strong>netauto-git-practices</strong><span data-i18n="r.netauto">Prácticas de flujo de trabajo con Git.</span></a></li>
+      <li data-cat="web"><a href="https://github.com/acdeveloper-sci/clase-git-codigofacilito" target="_blank" rel="noopener noreferrer"><strong>clase-git-codigofacilito</strong><span data-i18n="r.clase">Ejercicios de la clase de Git de Código Facilito.</span></a></li>
+    </ul>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ── Why ─────────────────────────────────────────────── -->
+  <section id="why">
+    <p class="eyebrow" data-i18n="why.eyebrow">Por qué elegirme</p>
+    <h2 data-i18n="why.title">Ciencia e ingeniería de software, en la misma persona</h2>
+    <p class="intro" data-i18n="why.intro">He desarrollado modelos matemáticos, los he implementado en Fortran de alto rendimiento y los he corrido en clústeres HPC. Por eso entiendo tanto el código como el problema que resuelve.</p>
+    <div class="why-grid">
+      <div class="why-card reveal"><span class="why-num">01</span><h3 data-i18n="why.1t">Entiendo el problema, no solo el código</h3><p data-i18n="why.1p">Detecto cuándo un resultado “corre” pero no tiene sentido físico.</p></div>
+      <div class="why-card reveal"><span class="why-num">02</span><h3 data-i18n="why.2t">Alcance claro desde el primer día</h3><p data-i18n="why.2p">Explico límites y complejidad antes de empezar, y solo me comprometo con lo que puedo entregar bien.</p></div>
+      <div class="why-card reveal"><span class="why-num">03</span><h3 data-i18n="why.3t">Código que puedes revisar</h3><p data-i18n="why.3p">Este portafolio es la prueba: cómo estructuro, pruebo y documento, a la vista antes de contratarme.</p></div>
+      <div class="why-card reveal"><span class="why-num">04</span><h3 data-i18n="why.4t">Atención real</h3><p data-i18n="why.4p">De uno a tres proyectos a la vez. Hablas directamente con quien escribe el código, en español o inglés.</p></div>
     </div>
   </section>
-</main>
 
-<footer>
-  <div class="wrap">
-    © <span id="year">2026</span> Adolfo J. Cardozo S. · <a href="https://acscicomp.com">acscicomp.com</a> · <a href="#inicio">Volver arriba ↑</a>
-  </div>
-</footer>
+  <hr class="divider">
 
-<script>
-  (function () {
-    var root = document.documentElement, btn = document.getElementById('theme');
-    try { var saved = localStorage.getItem('theme'); if (saved) root.setAttribute('data-theme', saved); } catch (e) {}
-    btn.addEventListener('click', function () {
-      var cur = root.getAttribute('data-theme') ||
-        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      var next = cur === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', next);
-      try { localStorage.setItem('theme', next); } catch (e) {}
+  <!-- ── Process ─────────────────────────────────────────── -->
+  <section id="process">
+    <p class="eyebrow" data-i18n="proc.eyebrow">Cómo trabajo</p>
+    <h2 data-i18n="proc.title">Del problema a la entrega</h2>
+    <ol class="steps">
+      <li><strong data-i18n="proc.1t">Conversación inicial</strong><span data-i18n="proc.1p">Me cuentas el problema, los datos y las restricciones.</span></li>
+      <li><strong data-i18n="proc.2t">Propuesta y alcance</strong><span data-i18n="proc.2p">Entregables, plazos y precio por escrito.</span></li>
+      <li><strong data-i18n="proc.3t">Desarrollo iterativo</strong><span data-i18n="proc.3p">Avances frecuentes en un repositorio que puedes ver, con pruebas.</span></li>
+      <li><strong data-i18n="proc.4t">Entrega y traspaso</strong><span data-i18n="proc.4p">Código, documentación e instrucciones para que tu equipo continúe.</span></li>
+    </ol>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ── Testimonials (EJEMPLO) ──────────────────────────── -->
+  <section id="testimonials">
+    <p class="eyebrow" data-i18n="test.eyebrow">Testimonios</p>
+    <h2 data-i18n="test.title">Lo que dicen los clientes</h2>
+    <div class="notice" role="note">
+      <span aria-hidden="true">⚠️</span>
+      <span data-i18n="test.notice"><strong>Textos de ejemplo.</strong> Estos testimonios son ficticios y solo muestran el formato de la sección. Hay que reemplazarlos por comentarios reales de clientes (con su permiso) antes de publicar.</span>
+    </div>
+    <div class="quote-grid">
+      <figure class="quote">
+        <span class="badge" data-i18n="test.badge">Ejemplo</span>
+        <blockquote data-i18n="test.1q">“Teníamos un modelo en Fortran de los años 90 que nadie se atrevía a tocar. Ahora corre como librería de Python, con pruebas y los mismos resultados numéricos.”</blockquote>
+        <figcaption><strong data-i18n="test.name">Nombre de ejemplo</strong><span data-i18n="test.1r">Líder técnico · Consultoría ambiental</span></figcaption>
+      </figure>
+      <figure class="quote">
+        <span class="badge" data-i18n="test.badge">Ejemplo</span>
+        <blockquote data-i18n="test.2q">“Lo que más valoré fue la claridad: desde la propuesta supimos qué se iba a entregar, qué no, y por qué.”</blockquote>
+        <figcaption><strong data-i18n="test.name">Nombre de ejemplo</strong><span data-i18n="test.2r">Investigadora · Grupo universitario</span></figcaption>
+      </figure>
+      <figure class="quote">
+        <span class="badge" data-i18n="test.badge">Ejemplo</span>
+        <blockquote data-i18n="test.3q">“Integró un asistente con LLM a nuestro análisis sin amarrarnos a un proveedor. Pasamos a un modelo local sin reescribir nada.”</blockquote>
+        <figcaption><strong data-i18n="test.name">Nombre de ejemplo</strong><span data-i18n="test.3r">Gerente de producto · Startup de datos</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ── FAQ ─────────────────────────────────────────────── -->
+  <section id="faq">
+    <p class="eyebrow" data-i18n="faq.eyebrow">Preguntas frecuentes</p>
+    <h2 data-i18n="faq.title">Antes de escribirme</h2>
+    <div class="faq">
+      <details><summary data-i18n="faq.1q">¿Puedo usar estos proyectos en mi trabajo?</summary><div class="answer" data-i18n="faq.1a">Sí. Los proyectos publicados con licencia MIT se pueden usar, modificar y redistribuir, también con fines comerciales, conservando el aviso de licencia. Revisa el archivo LICENSE de cada repositorio.</div></details>
+      <details><summary data-i18n="faq.2q">¿Están listos para producción?</summary><div class="answer" data-i18n="faq.2a">Cada tarjeta indica su estado. Los marcados como Alpha o MVP están en desarrollo activo y su API puede cambiar. Si necesitas uno de ellos estable para tu caso, podemos trabajarlo como proyecto.</div></details>
+      <details><summary data-i18n="faq.3q">¿Puedo contribuir o reportar errores?</summary><div class="answer" data-i18n="faq.3a">¡Claro! Abre un issue o un pull request en el repositorio. Algunos proyectos tienen una guía CONTRIBUTING.md con los detalles.</div></details>
+      <details><summary data-i18n="faq.4q">Mi código Fortran es antiguo y nadie lo entiende. ¿Puedes ayudar?</summary><div class="answer" data-i18n="faq.4a">Es justamente mi especialidad. Primero lo analizo (dependencias, complejidad, riesgos) con herramientas como forti4d y fortriage, y te digo qué conviene modernizar primero. Luego decidimos: envolverlo para usarlo desde Python, refactorizarlo o migrarlo, verificando que los resultados numéricos no cambien.</div></details>
+      <details><summary data-i18n="faq.5q">¿Cómo se contrata y cuánto cuesta?</summary><div class="answer" data-i18n="faq.5a">Depende del alcance. Tras una primera conversación te envío una propuesta escrita con precio. Puedes contratarme por Fiverr, que protege el pago para ambas partes, o directamente por correo.</div></details>
+      <details><summary data-i18n="faq.6q">¿De quién es el código de un proyecto contratado?</summary><div class="answer" data-i18n="faq.6a">Tuyo. Al terminar y pagar el proyecto, el código es del cliente. Si es confidencial se queda privado; si quieres liberar una parte como código abierto, te ayudo a hacerlo.</div></details>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ── Contact ─────────────────────────────────────────── -->
+  <section id="contact">
+    <p class="eyebrow" data-i18n="c.eyebrow">Contacto</p>
+    <h2 data-i18n="c.title">¿Trabajamos juntos?</h2>
+    <p class="contact-sub" data-i18n="c.sub">Cuéntame en pocas líneas qué problema quieres resolver. Te respondo con preguntas concretas o con una propuesta.</p>
+    <div class="contact-options">
+      <a class="contact-card" href="https://www.fiverr.com/acardozos" target="_blank" rel="noopener noreferrer"><span class="contact-icon" aria-hidden="true">💼</span><span class="contact-info"><strong>Fiverr</strong><span data-i18n="c.fiverr">Contratar un proyecto</span></span></a>
+      <a class="contact-card" href="https://co.linkedin.com/in/acardozos" target="_blank" rel="noopener noreferrer"><span class="contact-icon" aria-hidden="true">💼</span><span class="contact-info"><strong>LinkedIn</strong><span>acardozos</span></span></a>
+      <a class="contact-card" href="https://github.com/acdeveloper-sci" target="_blank" rel="noopener noreferrer"><span class="contact-icon" aria-hidden="true">🐙</span><span class="contact-info"><strong>GitHub</strong><span>acdeveloper-sci</span></span></a>
+      <a class="contact-card" href="mailto:acardozos@acscicomp.com"><span class="contact-icon" aria-hidden="true">✉️</span><span class="contact-info"><strong data-i18n="c.email">Correo</strong><span>acardozos@acscicomp.com</span></span></a>
+    </div>
+  </section>
+  </main>
+
+  <footer>
+    <span>© <span id="year">2026</span> <a href="https://acscicomp.com/">acscicomp.com</a> · Adolfo J. Cardozo S.</span>
+    <a href="#hero" data-i18n="footer.top">Volver arriba ↑</a>
+  </footer>
+
+  <script>
+    document.documentElement.classList.add('js');
+    const root = document.documentElement;
+
+    /* ── Idioma ES / EN ───────────────────────────────── */
+    const EN = {
+      'skip': 'Skip to main content',
+      'nav.portfolio': 'portfolio', 'nav.projects': 'Projects', 'nav.why': 'Why me', 'nav.faq': 'FAQ',
+      'nav.contact': 'Contact', 'nav.back': '← acscicomp.com', 'nav.hire': 'Hire me ↗',
+      'tag.os': 'Open source', 'tag.ai': 'AI / LLMs',
+      'hero.title': 'Open source portfolio',
+      'hero.sub': 'Everything I have public on GitHub, in one place: tools to understand and modernize legacy Fortran code, infrastructure for integrating language models, Python utilities and practice projects. Code you can review before working with me.',
+      'hero.cta1': 'View projects', 'hero.cta2': 'GitHub profile ↗',
+      'stat.1': 'decades of science and code', 'stat.2': 'open license', 'stat.3': 'bilingual',
+      'proj.eyebrow': 'Featured projects', 'proj.title': 'What I’m building',
+      'proj.intro': 'Filter by area. Each card links to the repository, and to the demo or package when there is one.',
+      'f.all': 'All', 'f.ai': 'AI / LLMs', 'f.tools': 'Python tools',
+      'st.live': 'Live demo', 'st.wip': 'In progress', 'l.demo': 'Try the demo →', 'l.play': 'Play →',
+      'm.forti4d': 'Python · Static analysis', 'm.odwi': 'Python · Architecture', 'm.acfort': 'Python · Library',
+      'm.envscout': 'Python · CLI', 'm.course': 'Python · Learning',
+      't.xplat': 'Cross-platform', 't.agents': 'Agents',
+      'p.fortriage': 'AI-powered prioritized dashboard for legacy Fortran systems. Combines static analysis, risk prioritization, interactive visualization and a conversational assistant to decide what to modernize first.',
+      'p.forti4d': 'Static analysis toolkit for real-world, mixed Fortran code (F77/F90/F95), right where general-purpose parsers fail. Resumable 19-step pipeline with detailed logging.',
+      'p.odwi': 'Provider-agnostic LLM access layer. Ports-and-adapters design: LiteLLM, Any-LLM or native SDKs as interchangeable adapters, plus a policy, context and orchestration core.',
+      'p.acfort': 'Read and write data with Fortran FORMAT syntax from Python: fixed and free formats, type inference and formatted output.',
+      'p.envscout': 'Find and manage every Python virtual environment on your disk: venv, conda, poetry, uv, pipenv, hatch and more. Fast scanning, parallel too. Windows, Linux and macOS.',
+      'p.course': 'AI engineering projects (LLM APIs, RAG, agents) taken beyond the course material: object-oriented refactoring and open-model integration.',
+      'p.snake': 'Classic Snake as a standalone browser game. Lightweight, no dependencies, deployed on its own subdomain.',
+      'empty': 'No featured projects in this category; see the list below.',
+      'more.title': 'More repositories', 'more.intro': 'Practice work, experiments and earlier projects. Also on GitHub.',
+      'r.flask': 'Flask API with background tasks (Celery), Docker and docker-compose.',
+      'r.nalavet': 'Web app built with nothing but Python on Anvil.',
+      'r.acai': 'Simple Anvil (Python) website with custom templates.',
+      'r.tienda': 'Online store mockup with HTML, CSS and Bootstrap.',
+      'r.actions': 'GitHub Actions workflows: variables, services, custom actions and runners on several OSes.',
+      'r.jupyter': 'Experiment with Jupyter and Google Colab over SSH.',
+      'r.netauto': 'Git workflow practice.',
+      'r.clase': 'Exercises from the Código Facilito Git class.',
+      'why.eyebrow': 'Why choose me', 'why.title': 'Science and software engineering in one person',
+      'why.intro': 'I have developed mathematical models, implemented them in high-performance Fortran and run them on HPC clusters. That is why I understand both the code and the problem it solves.',
+      'why.1t': 'I understand the problem, not just the code', 'why.1p': 'I can tell when a result “runs” but makes no physical sense.',
+      'why.2t': 'Clear scope from day one', 'why.2p': 'I explain limits and complexity up front, and only commit to what I can deliver well.',
+      'why.3t': 'Code you can review', 'why.3p': 'This portfolio is the proof: how I structure, test and document, visible before you hire me.',
+      'why.4t': 'Real attention', 'why.4p': 'One to three projects at a time. You talk directly to the person writing the code, in English or Spanish.',
+      'proc.eyebrow': 'How I work', 'proc.title': 'From problem to delivery',
+      'proc.1t': 'First conversation', 'proc.1p': 'You tell me about the problem, the data and the constraints.',
+      'proc.2t': 'Proposal and scope', 'proc.2p': 'Deliverables, timeline and price in writing.',
+      'proc.3t': 'Iterative development', 'proc.3p': 'Frequent progress in a repository you can see, with tests.',
+      'proc.4t': 'Delivery and handover', 'proc.4p': 'Code, documentation and instructions so your team can carry on.',
+      'test.eyebrow': 'Testimonials', 'test.title': 'What clients say',
+      'test.notice': '<strong>Sample text.</strong> These testimonials are fictional and only show the section layout. They must be replaced with real client feedback (with permission) before publishing.',
+      'test.badge': 'Example', 'test.name': 'Sample name',
+      'test.1q': '“We had a 1990s Fortran model nobody dared to touch. Now it runs as a Python library, with tests and the same numerical results.”',
+      'test.1r': 'Tech lead · Environmental consultancy',
+      'test.2q': '“What I valued most was the clarity: from the proposal on, we knew what would be delivered, what wouldn’t, and why.”',
+      'test.2r': 'Researcher · University group',
+      'test.3q': '“He added an LLM assistant to our analysis without locking us into one provider. We moved to a local model without rewriting anything.”',
+      'test.3r': 'Product manager · Data startup',
+      'faq.eyebrow': 'FAQ', 'faq.title': 'Before you write',
+      'faq.1q': 'Can I use these projects in my work?',
+      'faq.1a': 'Yes. Projects released under the MIT license can be used, modified and redistributed, commercially too, as long as the license notice is kept. Check each repository’s LICENSE file.',
+      'faq.2q': 'Are they production-ready?',
+      'faq.2a': 'Each card shows its status. Those marked Alpha or MVP are under active development and their API may change. If you need one of them stable for your use case, we can work on it as a project.',
+      'faq.3q': 'Can I contribute or report bugs?',
+      'faq.3a': 'Of course! Open an issue or a pull request on the repository. Some projects have a CONTRIBUTING.md guide with the details.',
+      'faq.4q': 'My Fortran code is old and nobody understands it. Can you help?',
+      'faq.4a': 'That is exactly my specialty. First I analyze it (dependencies, complexity, risks) with tools like forti4d and fortriage, and tell you what to modernize first. Then we decide: wrap it for use from Python, refactor it or migrate it, checking that the numerical results do not change.',
+      'faq.5q': 'How do I hire you and how much does it cost?',
+      'faq.5a': 'It depends on the scope. After a first conversation I send a written proposal with a price. You can hire me on Fiverr, which protects payment for both sides, or directly by email.',
+      'faq.6q': 'Who owns the code of a contracted project?',
+      'faq.6a': 'You do. Once the project is finished and paid, the code belongs to the client. If it is confidential it stays private; if you want to release part of it as open source, I can help.',
+      'c.eyebrow': 'Contact', 'c.title': 'Shall we work together?',
+      'c.sub': 'Tell me in a few lines what problem you want to solve. I will reply with specific questions or a proposal.',
+      'c.fiverr': 'Hire me for a project', 'c.email': 'Email',
+      'footer.top': 'Back to top ↑'
+    };
+    const META = {
+      es: { title: document.title, desc: document.querySelector('meta[name="description"]').content,
+            lang: 'Cambiar idioma', theme: 'Cambiar tema claro/oscuro', menu: 'Abrir menú', filters: 'Filtrar proyectos' },
+      en: { title: 'Open source portfolio — Adolfo J. Cardozo S. | AC Scientific Computing',
+            desc: 'Public GitHub projects by Adolfo J. Cardozo S.: legacy Fortran analysis, AI and LLMs, Python tools and more.',
+            lang: 'Change language', theme: 'Toggle light/dark theme', menu: 'Open menu', filters: 'Filter projects' }
+    };
+    const i18nNodes = document.querySelectorAll('[data-i18n]');
+    i18nNodes.forEach(el => { el.dataset.es = el.innerHTML; });   // el español queda en el HTML
+
+    function applyLang(lang) {
+      i18nNodes.forEach(el => {
+        const key = el.dataset.i18n;
+        el.innerHTML = (lang === 'en' && EN[key]) ? EN[key] : el.dataset.es;
+      });
+      root.setAttribute('lang', lang);
+      document.title = META[lang].title;
+      document.querySelector('meta[name="description"]').content = META[lang].desc;
+      document.getElementById('lang-toggle').querySelectorAll('[data-l]').forEach(s => {
+        s.innerHTML = s.dataset.l === lang ? '<b>' + s.dataset.l.toUpperCase() + '</b>' : s.dataset.l.toUpperCase();
+      });
+      document.getElementById('theme-toggle').setAttribute('aria-label', META[lang].theme);
+      document.getElementById('hamburger').setAttribute('aria-label', META[lang].menu);
+      document.querySelector('.filters').setAttribute('aria-label', META[lang].filters);
+    }
+    document.getElementById('lang-toggle').addEventListener('click', () => {
+      const next = root.getAttribute('lang') === 'en' ? 'es' : 'en';
+      try { localStorage.setItem('acscicomp-lang', next); } catch (e) {}
+      applyLang(next);
     });
+    applyLang(root.getAttribute('lang') === 'en' ? 'en' : 'es');
+
+    /* ── Tema (misma clave que acscicomp.com) ─────────── */
+    const themeBtn = document.getElementById('theme-toggle');
+    const STORAGE_KEY = 'acscicomp-theme';
+    const systemTheme = () => window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    function applyTheme(theme) {
+      root.setAttribute('data-theme', theme);
+      themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+    let savedTheme = null;
+    try { savedTheme = localStorage.getItem(STORAGE_KEY); } catch (e) {}
+    applyTheme(savedTheme || systemTheme());
+    themeBtn.addEventListener('click', () => {
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      try { localStorage.setItem(STORAGE_KEY, next); } catch (e) {}
+      applyTheme(next);
+    });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      let s = null; try { s = localStorage.getItem(STORAGE_KEY); } catch (err) {}
+      if (!s) applyTheme(e.matches ? 'dark' : 'light');
+    });
+
+    /* ── Menú móvil ───────────────────────────────────── */
+    const burger = document.getElementById('hamburger');
+    const links = document.getElementById('nav-links');
+    burger.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      burger.setAttribute('aria-expanded', String(open));
+      burger.textContent = open ? '✕' : '☰';
+    });
+    links.addEventListener('click', e => {
+      if (e.target.closest('a')) { links.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); burger.textContent = '☰'; }
+    });
+
+    /* ── Filtros de proyectos ─────────────────────────── */
+    const filters = document.querySelectorAll('.filter');
+    const cards = document.querySelectorAll('#projects-grid .project-card');
+    const moreItems = document.querySelectorAll('#more-list li');
+    filters.forEach(btn => btn.addEventListener('click', () => {
+      const f = btn.dataset.filter;
+      filters.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+      let shown = 0;
+      cards.forEach(c => {
+        const match = f === 'all' || c.dataset.cat.split(' ').includes(f);
+        c.hidden = !match; if (match) { shown++; c.classList.add('visible'); }
+      });
+      let moreShown = 0;
+      moreItems.forEach(li => {
+        li.hidden = !(f === 'all' || li.dataset.cat.split(' ').includes(f));
+        if (!li.hidden) moreShown++;
+      });
+      ['more-title', 'more-intro'].forEach(id => { document.getElementById(id).hidden = moreShown === 0; });
+      document.getElementById('empty').hidden = shown > 0;
+    }));
+
+    /* ── Typewriter (comandos reales de los proyectos) ── */
+    const lines = [
+      'pip install acfortformat',
+      'forti4d --project legacy_model/ --output out/',
+      'envscout scan ~/projects --parallel',
+      'uv run pytest   # odwi-llm',
+      'streamlit run streamlit_app.py   # fortriage',
+    ];
+    const tw = document.getElementById('typewriter');
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      tw.textContent = lines[0];
+    } else {
+      let li = 0, ci = 0, deleting = false;
+      (function type() {
+        const line = lines[li];
+        if (!deleting) {
+          tw.textContent = line.slice(0, ++ci);
+          if (ci === line.length) { deleting = true; return setTimeout(type, 2200); }
+          setTimeout(type, 42);
+        } else {
+          tw.textContent = line.slice(0, --ci);
+          if (ci === 0) { deleting = false; li = (li + 1) % lines.length; return setTimeout(type, 400); }
+          setTimeout(type, 18);
+        }
+      })();
+    }
+
+    /* ── Scroll reveal ────────────────────────────────── */
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    } else {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+    }
+
     document.getElementById('year').textContent = new Date().getFullYear();
-  })();
-</script>
+  </script>
 </body>
 </html>
