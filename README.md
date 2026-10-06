@@ -10,8 +10,9 @@ Complementa el sitio principal, [acscicomp.com](https://acscicomp.com).
   claro/oscuro y barra de navegación. Usa las mismas claves de `localStorage`
   (`acscicomp-theme`, `acscicomp-lang`), así que el tema y el idioma elegidos se comparten
   con el sitio principal cuando ambos se sirven desde el mismo dominio.
-- Botón **EN / ES**: el español está en el HTML y las traducciones al inglés están en el
-  objeto `EN` del script.
+- Botón **EN / ES**: por ahora está desactivado ("próximamente"), igual que en acscicomp.com.
+  El español está en el HTML y las traducciones al inglés ya están en el objeto `EN` del
+  script; para activarlo basta con poner `window.LANG_SWITCH_ENABLED = true` al inicio de la página.
 - La sección de testimonios es **de ejemplo (ficticia)**: hay que reemplazarla por
   testimonios reales antes de difundir la página.
 

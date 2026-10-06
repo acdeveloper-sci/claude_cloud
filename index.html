@@ -22,12 +22,17 @@
   <script>
     /* Aplica tema e idioma antes de pintar, para evitar parpadeo.
        Mismas claves que acscicomp.com: al servirse bajo el mismo dominio, se comparten. */
+    /* Cambio de idioma desactivado hasta que acscicomp.com tenga su versión en inglés.
+       Para activarlo: poner true aquí (las traducciones ya están en el objeto EN). */
+    window.LANG_SWITCH_ENABLED = false;
     (function () {
       try {
         var t = localStorage.getItem('acscicomp-theme');
         if (t) document.documentElement.setAttribute('data-theme', t);
-        var l = localStorage.getItem('acscicomp-lang');
-        if (l) document.documentElement.setAttribute('lang', l);
+        if (window.LANG_SWITCH_ENABLED) {
+          var l = localStorage.getItem('acscicomp-lang');
+          if (l) document.documentElement.setAttribute('lang', l);
+        }
       } catch (e) {}
     })();
   </script>
@@ -123,6 +128,8 @@
       min-height: 34px;
     }
     .lang-btn { padding: 5px 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; white-space: nowrap; }
+    .lang-btn:disabled { cursor: default; opacity: 0.5; }
+    .lang-btn:disabled:hover { border-color: var(--border); color: var(--muted); }
     .lang-btn b { color: var(--accent); font-weight: 700; }
     .theme-btn { padding: 6px 10px; font-size: 16px; line-height: 1; }
     .lang-btn:hover, .theme-btn:hover, .hamburger:hover { border-color: var(--accent); color: var(--accent); }
@@ -325,7 +332,7 @@
       <li><a href="https://acscicomp.com/" class="back" data-i18n="nav.back">← acscicomp.com</a></li>
     </ul>
     <div class="nav-right">
-      <button class="lang-btn" id="lang-toggle" type="button" aria-label="Cambiar idioma / Change language"><span data-l="en">EN</span> / <span data-l="es">ES</span></button>
+      <button class="lang-btn" id="lang-toggle" type="button" disabled title="Versión en inglés: próximamente" aria-label="Cambio de idioma: próximamente"><span data-l="en">EN</span> / <span data-l="es">ES</span></button>
       <button class="theme-btn" id="theme-toggle" type="button" aria-label="Cambiar tema claro/oscuro">🌙</button>
       <a href="https://www.fiverr.com/acardozos" target="_blank" rel="noopener noreferrer" class="cta-nav" data-i18n="nav.hire">Contrátame ↗</a>
       <button class="hamburger" id="hamburger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links">☰</button>
@@ -664,12 +671,20 @@
       document.getElementById('hamburger').setAttribute('aria-label', META[lang].menu);
       document.querySelector('.filters').setAttribute('aria-label', META[lang].filters);
     }
-    document.getElementById('lang-toggle').addEventListener('click', () => {
-      const next = root.getAttribute('lang') === 'en' ? 'es' : 'en';
-      try { localStorage.setItem('acscicomp-lang', next); } catch (e) {}
-      applyLang(next);
-    });
-    applyLang(root.getAttribute('lang') === 'en' ? 'en' : 'es');
+    const langBtn = document.getElementById('lang-toggle');
+    if (window.LANG_SWITCH_ENABLED) {
+      langBtn.disabled = false;
+      langBtn.title = '';
+      langBtn.setAttribute('aria-label', 'Cambiar idioma / Change language');
+      langBtn.addEventListener('click', () => {
+        const next = root.getAttribute('lang') === 'en' ? 'es' : 'en';
+        try { localStorage.setItem('acscicomp-lang', next); } catch (e) {}
+        applyLang(next);
+      });
+      applyLang(root.getAttribute('lang') === 'en' ? 'en' : 'es');
+    } else {
+      applyLang('es');
+    }
 
     /* ── Tema (misma clave que acscicomp.com) ─────────── */
     const themeBtn = document.getElementById('theme-toggle');
