@@ -4,15 +4,24 @@ Portafolio open source de **Adolfo J. Cardozo S.** (AC Scientific Computing): un
 presenta los proyectos públicos de [github.com/acdeveloper-sci](https://github.com/acdeveloper-sci).
 Complementa el sitio principal, [acscicomp.com](https://acscicomp.com).
 
-- `index.html`: una sola página con HTML, CSS y JS en línea, sin compilación.
-- `assets/img/`: logo, el mismo del sitio principal.
+Estructura, igual a la del sitio principal:
+
+```
+index.html              contenido de la página (en inglés)
+assets/css/main.css     estilos
+assets/js/theme-init.js tema guardado antes de pintar + interruptor de idioma
+assets/js/main.js       idioma, tema, menú móvil, filtros, animaciones
+assets/img/             logo (el mismo de acscicomp.com)
+```
+
 - Mismo sistema de diseño que acscicomp.com: colores, tipografía Space Grotesk, tema
   claro/oscuro y barra de navegación. Usa las mismas claves de `localStorage`
-  (`acscicomp-theme`, `acscicomp-lang`), así que el tema y el idioma elegidos se comparten
-  con el sitio principal cuando ambos se sirven desde el mismo dominio.
-- Botón **EN / ES**: por ahora está desactivado ("próximamente"), igual que en acscicomp.com.
-  El español está en el HTML y las traducciones al inglés ya están en el objeto `EN` del
-  script; para activarlo basta con poner `window.LANG_SWITCH_ENABLED = true` al inicio de la página.
+  (`acscicomp-theme`, `acscicomp-lang`), así que el tema y el idioma se comparten con el
+  sitio principal bajo el mismo dominio.
+- **Idioma:** la página se muestra en inglés, como el sitio principal. El botón **EN / ES**
+  está desactivado ("coming soon") hasta que acscicomp.com tenga su versión en español.
+  Las traducciones al español ya están en el objeto `ES` de `assets/js/main.js`. Para
+  activarlo, pon `window.LANG_SWITCH_ENABLED = true` en `assets/js/theme-init.js`.
 - La sección de testimonios es **de ejemplo (ficticia)**: hay que reemplazarla por
   testimonios reales antes de difundir la página.
 
