@@ -3,7 +3,7 @@
 
 /* Language switch: off until acscicomp.com has its Spanish version.
    Set to true to enable it (Spanish texts are in assets/js/main.js). */
-window.LANG_SWITCH_ENABLED = false;
+window.LANG_SWITCH_ENABLED = true;
 
 (function () {
   try {
